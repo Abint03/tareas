@@ -1,15 +1,12 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        List<Vuelo>vuelos=new LinkedList<Vuelo>();
+        List<Vuelo>vuelos=new ArrayList<>();
         vuelos.add(new Vuelo("AAL 933","New York","Santiago", LocalDateTime.of(2021,8,29,5,39),62));
         vuelos.add(new Vuelo("LAT 755","Sao Paulo","Santiago",LocalDateTime.of(2021,8,31,4,45),47));
         vuelos.add(new Vuelo("SKU 621","Rio De Janeiro","Santiago",LocalDateTime.of(2021,8,30,16,0),52));
@@ -30,15 +27,52 @@ public class Main {
         vuelos.add(new Vuelo("AAL 945","Dallas-Fort Worth","Santiago",LocalDateTime.of(2021,8,30,7,12),58));
         vuelos.add(new Vuelo("LAT 501","París","Santiago",LocalDateTime.of(2021,8,29,18,29),49));
         vuelos.add(new Vuelo("LAT 405","Montevideo","Santiago",LocalDateTime.of(2021,8,30,15,45),39));
+        ordenamiento(vuelos);
+        ultVuelo(vuelos);
+    }
+    public static int buscaMenor(List<Vuelo>a, int index){
+        int i=index+1;
+        while(i<a.size()){
+            if(a.get(index).getLlegada().compareTo(a.get(i).getLlegada())<0){
+                i++;
+            }else{
+                index=i;
+                i++;
+            }
+        }
+        return index;
+    }
 
-        System.out.println(LocalDateTime.of(2021,8,29,18,29).compareTo(LocalDateTime.of(2021,8,29,18,15)));
+    public static void ordenamiento(List<Vuelo> a){
+        Vuelo aux;
+        int index=0,menor=0;
+        for(int i=0; i< a.size();i++){
+            menor=buscaMenor(a,index);
+            aux=a.get(index);
+            a.set(index,a.get(menor));
+            a.set(menor,aux);
+            index++;
+        }
+        for(Vuelo b: a){
+            System.out.println(b.toString());
+        }
 
     }
 
-    public static void ordenList(List<Vuelo>a){
-        ListIterator<Vuelo>e=a.listIterator();
-        while(e.hasNext()){
-
+    public static void ultVuelo(List<Vuelo>a){
+        int i=1;
+        int index=0;
+        while(i<a.size()){
+            if(a.get(index).getLlegada().compareTo(a.get(i).getLlegada())>0){
+                i++;
+            }else{
+                index=i;
+                i++;
+            }
         }
+        System.out.println("EL ULTIMO VUELO EN LLEGAR: "+a.get(index).toString());
     }
 }
+
+
+
